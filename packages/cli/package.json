@@ -1,0 +1,32 @@
+{
+  "name": "create-agent-conventions",
+  "version": "0.1.0",
+  "description": "Interactive installer for agent-friendly code conventions",
+  "type": "module",
+  "bin": {
+    "create-agent-conventions": "./src/index.js"
+  },
+  "files": [
+    "src",
+    "templates"
+  ],
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "keywords": [
+    "claude",
+    "agent",
+    "conventions",
+    "code-style",
+    "cli"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "prompts": "^2.4.2",
+    "picocolors": "^1.0.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
