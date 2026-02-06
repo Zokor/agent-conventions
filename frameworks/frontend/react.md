@@ -20,7 +20,13 @@ src/
       UserCard.tsx            ← one component per file
       UserCard.test.tsx       ← colocated test
   hooks/
-    useUserData.ts
+    useUsers.ts               ← reactive data fetching (TanStack Query/SWR)
+  services/
+    users.ts                  ← business logic, orchestration
+  api/
+    users.ts                  ← raw HTTP calls (fetch/axios)
+  validators/
+    user.ts                   ← Zod/Yup schemas
   types/
     user.ts                   ← user-only types/contracts
   enums/
@@ -45,8 +51,14 @@ src/
       UserCard.test.tsx       ← colocated test
       UserCard.stories.tsx    ← colocated story (if using Storybook)
     hooks/
-      useUserData.ts
-      useUserData.test.ts
+      useUsers.ts             ← reactive data fetching (TanStack Query/SWR)
+      useUsers.test.ts
+    services/
+      users.ts                ← business logic, orchestration
+    api/
+      users.ts                ← raw HTTP calls (fetch/axios)
+    validators/
+      user.ts                 ← Zod/Yup schemas
     types/
       user.ts                 ← user-only types/contracts
     enums/

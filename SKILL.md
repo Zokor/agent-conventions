@@ -41,7 +41,9 @@ src/
     ui/                  # Reusable primitives (Button, Modal, Input, Toast)
     users/               # User-specific components
     products/            # Product-specific components
-  services/
+  hooks/                 # React hooks / Vue composables (aka composables/)
+    useUsers.ts
+  services/              # Business logic, orchestration (non-HTTP)
     users.ts
     products.ts
   stores/                # Shared state containers (Pinia/Zustand/Redux)
@@ -50,6 +52,9 @@ src/
   api/                   # HTTP clients (+ client interceptors/middleware)
     users.ts
     products.ts
+  validators/            # Form/input validation schemas (Zod/Yup)
+    user.ts
+    login.ts
   types/
     user.ts
     product.ts
@@ -78,8 +83,9 @@ src/
       components/        # User-specific UI components
       composables/       # Vue composables / React hooks (aka hooks/)
       stores/            # User-specific shared state
-      services/          # Use-cases / business logic
+      services/          # Business logic, orchestration (non-HTTP)
       api/               # HTTP clients / DTO mappers
+      validators/        # Form/input validation schemas
       types/
       enums/
       errors/
@@ -108,6 +114,16 @@ Move a domain from concern-first to a feature folder when it accumulates 3+ conc
 - `composables/` (or `hooks/`) → reusable logic; usually **per-caller** state
 - `stores/` → deliberate **shared** state container (feature-level global-ish)
 - If you intentionally create a singleton composable/hook (module-scoped state), treat it like a store: put it in `stores/` (or name it accordingly)
+
+**`api/` vs `services/` vs `hooks/`:**
+- `api/` → raw HTTP calls (`getUsers()`, `createUser()`) — thin wrappers around fetch/axios
+- `services/` → business logic, orchestration, transformations — no HTTP awareness
+- `hooks/` (or `composables/`) → reactive wrappers that call `api/` functions (`useUsers()` via TanStack Query/SWR)
+
+**`validators/` — form and input validation:**
+- One schema file per domain concept (`validators/user.ts`, `validators/login.ts`)
+- Use a schema library (Zod, Yup, Valibot) — never hand-roll validation
+- Schemas can be shared between frontend forms and backend API validation
 
 **Interceptors (HTTP/framework):**
 - Keep interceptors/middleware **at the boundary** they intercept (HTTP client/server pipeline)

@@ -20,11 +20,15 @@ src/
       UserCard.vue
       UserCard.test.ts
   composables/
-    useUserData.ts
+    useUsers.ts               ← reactive data fetching (VueQuery/TanStack)
+  services/
+    users.ts                  ← business logic, orchestration
   stores/
     auth.store.ts
   api/
-    users.api.ts
+    users.api.ts              ← raw HTTP calls (fetch/axios)
+  validators/
+    user.ts                   ← Zod/Yup schemas
   types/
     user.ts
   enums/
@@ -49,12 +53,16 @@ src/
         UserCard.vue
         UserCard.test.ts
       composables/
-        useUserData.ts
-        useUserData.test.ts
+        useUsers.ts             ← reactive data fetching (VueQuery/TanStack)
+        useUsers.test.ts
+      services/
+        users.ts                ← business logic, orchestration
       stores/
         user.store.ts
       api/
-        user.api.ts
+        user.api.ts             ← raw HTTP calls (fetch/axios)
+      validators/
+        user.ts                 ← Zod/Yup schemas
       types/
         user.ts
       enums/

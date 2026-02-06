@@ -30,8 +30,12 @@ src/app/
         user-card.component.html
         user-card.component.spec.ts
   services/
-    user.service.ts
+    user.service.ts           ← business logic, orchestration
     user.service.spec.ts
+  api/
+    user.api.ts               ← raw HTTP calls
+  validators/
+    user.ts                   ← Zod/class-validator schemas
   types/
     user.ts
   enums/
@@ -74,10 +78,12 @@ src/app/
           user-card.component.scss
           user-card.component.spec.ts
       services/
-        user.service.ts
+        user.service.ts         ← business logic, orchestration
         user.service.spec.ts
       api/
-        user.api.ts
+        user.api.ts             ← raw HTTP calls
+      validators/
+        user.ts                 ← Zod/class-validator schemas
       types/
         user.ts
       enums/

@@ -34,7 +34,10 @@ src/
 │   ├── layout/                  # Header, Footer, Sidebar
 │   ├── ui/                      # Button, Modal, Input
 │   └── users/                   # User-specific components
-├── hooks/
+├── hooks/                       # Reactive data fetching (TanStack Query/SWR)
+├── services/                    # Business logic, orchestration
+├── api/                         # Raw HTTP calls (fetch/axios)
+├── validators/                  # Zod/Yup schemas
 ├── types/
 ├── lib/
 ```
@@ -50,7 +53,10 @@ src/
 ├── features/
 │   └── users/
 │       ├── components/
-│       ├── hooks/
+│       ├── hooks/               # Reactive data fetching
+│       ├── services/            # Business logic
+│       ├── api/                 # Raw HTTP calls
+│       ├── validators/          # Zod/Yup schemas
 │       ├── types/
 │       ├── enums/
 │       └── actions/             # Server actions
