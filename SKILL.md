@@ -26,11 +26,19 @@ Every convention serves one or more of these goals:
 
 ## Universal Rules (All Languages)
 
-### 1. File Organization — Choose by Project Size
+### 1. File Organization
 
-Use a predictable layout so agents can place and find files deterministically. Choose the approach that fits your project's complexity.
+Use a predictable layout so agents can place and find files deterministically.
 
-#### Option A: Concern-first (small/medium projects)
+**Scope**: The folder structures below are organized by **project type**. Universal rules (naming, exports, testing, errors, logging, security) apply to all project types. Folder structures are type-specific — don't force web app folders onto a game or CLI.
+
+---
+
+#### Web Applications (Frontend)
+
+Choose by project size:
+
+##### Option A: Concern-first (small/medium projects)
 
 Group by concern at the top level, then by domain inside each:
 
@@ -69,7 +77,7 @@ tests/
 
 **When to use**: Project has < 10 domain areas, or features rarely have more than 2-3 concerns each. Simple, flat, easy to navigate.
 
-#### Option B: Feature-first (large projects)
+##### Option B: Feature-first (large projects)
 
 Group by feature, then by concern inside each:
 
