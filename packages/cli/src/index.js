@@ -114,7 +114,8 @@ ${pc.bold('Examples:')}
 }
 
 function expandPath(p) {
-  return p.replace(/^~/, process.env.HOME)
+  const home = process.env.HOME || process.env.USERPROFILE
+  return p.replace(/^~/, home)
 }
 
 async function main() {
