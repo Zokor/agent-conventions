@@ -9,7 +9,7 @@ description: >
   bug fixes, migrations, or any task that produces source code. Covers file
   organization, naming, searchability, testing, error handling, logging, security,
   and architectural boundaries. Stack-specific references available for React,
-  Vue, Angular, Laravel, .NET, Python, Go, and more.
+  Vue, Angular, Laravel, .NET, Python, Go, Rust, and more.
 ---
 
 # Agent Conventions
@@ -291,6 +291,7 @@ For detailed conventions per framework or language, read the relevant reference 
 - **Java**: See [languages/java.md](languages/java.md)
 - **C#**: See [languages/csharp.md](languages/csharp.md)
 - **Go**: See [languages/go.md](languages/go.md)
+- **Rust**: See [languages/rust.md](languages/rust.md)
 
 ### General
 - **API / HTTP**: See [api.md](api.md)

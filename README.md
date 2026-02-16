@@ -1,6 +1,5 @@
 # Agent Conventions
 
-[![npm version](https://img.shields.io/npm/v/create-agent-conventions.svg)](https://www.npmjs.com/package/create-agent-conventions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 Conventions that make codebases searchable, predictable, and agent-friendly.
@@ -20,6 +19,7 @@ Conventions that make codebases searchable, predictable, and agent-friendly.
 | Java | [java.md](languages/java.md) | Records, sealed classes, Optional, streams |
 | C# | [csharp.md](languages/csharp.md) | Nullable refs, records, LINQ, async patterns |
 | Go | [go.md](languages/go.md) | Error handling, interfaces, context, packages |
+| Rust | [rust.md](languages/rust.md) | Ownership, Result-based errors, cargo fmt/clippy/test |
 
 ### Frontend Frameworks
 
@@ -53,50 +53,49 @@ Conventions that make codebases searchable, predictable, and agent-friendly.
 
 ## Installation
 
-### Vercel-Style Installer (Recommended)
+Install with `npx skills add` only.
 
 ```bash
-npx skills add Zokor/agent-conventions
+# Project-local (writes under current repo)
+npx -y skills add Zokor/agent-conventions --skill agent-conventions --agent claude-code codex --yes
+
+# Global (writes under home directory)
+npx -y skills add Zokor/agent-conventions -g --skill agent-conventions --agent claude-code codex --yes
 ```
 
-Install globally across detected agents:
-
-```bash
-npx skills add Zokor/agent-conventions -g --agent '*' -y
-```
+- Project-local install creates `./.agents/skills/agent-conventions` and links `./.claude/skills/agent-conventions`.
+- Global install creates `~/.agents/skills/agent-conventions` and links `~/.claude/skills/agent-conventions`.
 
 Useful management commands:
 
 ```bash
 # List skills exposed by the repo
-npx skills add Zokor/agent-conventions --list
+npx -y skills add Zokor/agent-conventions --list
 
 # List installed skills
-npx skills list
+npx -y skills list
+
+# List globally installed skills
+npx -y skills list -g
 
 # Check and apply skill updates
-npx skills check && npx skills update
-```
-
-### Deprecated Installation Methods
-
-These are temporarily kept for compatibility and will be removed in a future cleanup:
-
-```bash
-# Deprecated: legacy npm CLI
-npx create-agent-conventions
-
-# Deprecated: legacy shell installer
-curl -fsSL https://raw.githubusercontent.com/Zokor/agent-conventions/main/install.sh | bash
-
-# Deprecated: manual clone workflow
-git clone https://github.com/Zokor/agent-conventions.git ~/.agent-conventions
+npx -y skills check && npx -y skills update
 ```
 
 ---
 
 ## Usage
 Skills are available to supported agents after installation via `npx skills add`.
+
+---
+
+## Versioning
+
+This skill uses semantic versioning tracked in:
+- `VERSION` for the current released version
+- `CHANGELOG.md` for release notes and upgrade history
+
+Current version: `2.0.0`
 
 ---
 
