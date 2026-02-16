@@ -295,6 +295,7 @@ For detailed conventions per framework or language, read the relevant reference 
 
 ### General
 - **API / HTTP**: See [api.md](api.md)
+- **Retry & Error Recovery**: See [retry.md](retry.md)
 
 Read the appropriate reference file based on the project's stack before generating code.
 

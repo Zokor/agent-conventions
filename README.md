@@ -48,6 +48,7 @@ Conventions that make codebases searchable, predictable, and agent-friendly.
 |------|-------------|
 | [SKILL.md](SKILL.md) | Universal conventions (file organization, naming, exports, testing, errors, logging) |
 | [api.md](api.md) | REST conventions, status codes, response structure |
+| [retry.md](retry.md) | Retry policy, error classification, circuit breakers, idempotency |
 
 ---
 
@@ -95,7 +96,7 @@ This skill uses semantic versioning tracked in:
 - `VERSION` for the current released version
 - `CHANGELOG.md` for release notes and upgrade history
 
-Current version: `2.0.0`
+Current version: `2.1.0`
 
 ---
 
