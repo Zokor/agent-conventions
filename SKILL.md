@@ -237,6 +237,18 @@ echo "user created";
 
 **Why**: Structured logs are parseable by machines and searchable by agents.
 
+### 7b. Retry & Recovery — Standard Policy
+
+Do not invent ad-hoc retry logic. Follow the standard retry policy in [retry.md](retry.md), which defines:
+
+- **Classify** errors as retryable (transient) vs non-retryable (permanent) before retrying.
+- **Max 3 attempts** with exponential backoff + jitter (capped at 30s, total deadline 60s).
+- **Idempotency required** — only retry idempotent operations or those with a dedupe mechanism.
+- **Observe** every attempt with structured logs (operation, attempt number, error class, elapsed time).
+- **Circuit breaker** — stop calling a dependency after 5 consecutive failures, probe after 30s cooldown.
+
+Full policy, including 409 classification, Retry-After handling, retry budgets, distributed concerns, and queue/dead-letter rules: [retry.md](retry.md).
+
 ### 8. Security Basics
 
 - Never hardcode secrets, tokens, or API keys in source files
