@@ -1,12 +1,13 @@
 #!/usr/bin/env bash
 
 # Agent Conventions Installer
-# Usage: curl -fsSL https://raw.githubusercontent.com/your-org/agent-conventions/main/install.sh | bash
+# Usage: curl -fsSL https://raw.githubusercontent.com/Zokor/agent-conventions/main/install.sh | bash
 # Or:    ./install.sh --target claude --all
 
 set -e
 
-REPO_URL="https://raw.githubusercontent.com/your-org/agent-conventions/main"
+REPO_URL="https://raw.githubusercontent.com/Zokor/agent-conventions/main"
+DEPRECATION_CMD="npx skills add Zokor/agent-conventions"
 
 # Colors
 RED='\033[0;31m'
@@ -40,6 +41,12 @@ print_header() {
   echo ""
 }
 
+print_deprecation_notice() {
+  echo -e "${YELLOW}${BOLD}DEPRECATED:${NC} ${DIM}This installer is kept temporarily for compatibility.${NC}"
+  echo -e "${YELLOW}${BOLD}Use instead:${NC} ${CYAN}${DEPRECATION_CMD}${NC}"
+  echo ""
+}
+
 print_success() {
   echo -e "${GREEN}✓${NC} ${DIM}$1${NC}"
 }
@@ -49,6 +56,7 @@ print_error() {
 }
 
 show_help() {
+  print_deprecation_notice
   echo "Usage: install.sh [options]"
   echo ""
   echo "Options:"
@@ -155,6 +163,7 @@ download_file() {
 
 main() {
   print_header
+  print_deprecation_notice
   check_requirements
 
   # Determine install path

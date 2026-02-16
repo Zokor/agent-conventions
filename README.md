@@ -53,86 +53,50 @@ Conventions that make codebases searchable, predictable, and agent-friendly.
 
 ## Installation
 
-### Interactive CLI (Recommended)
-
-Select only the languages and frameworks you need:
+### Vercel-Style Installer (Recommended)
 
 ```bash
-npx create-agent-conventions
+npx skills add Zokor/agent-conventions
 ```
 
-### Shell Script
-
-For environments without Node.js:
+Install globally across detected agents:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/your-org/agent-conventions/main/install.sh | bash
+npx skills add Zokor/agent-conventions -g --agent '*' -y
 ```
 
-### Manual Installation
+Useful management commands:
 
 ```bash
-git clone https://github.com/your-org/agent-conventions.git ~/.agent-conventions
+# List skills exposed by the repo
+npx skills add Zokor/agent-conventions --list
+
+# List installed skills
+npx skills list
+
+# Check and apply skill updates
+npx skills check && npx skills update
 ```
 
----
+### Deprecated Installation Methods
 
-## Install Locations
-
-The installer supports multiple AI coding assistants:
-
-| Tool | Install Path | Command |
-|------|--------------|---------|
-| **Claude Code** | `~/.claude/skills/agent-conventions/` | Default |
-| **Codex / ChatGPT** | `~/.codex/skills/agent-conventions/` | `--target codex` |
-| **Cursor** | `~/.cursor/skills/agent-conventions/` | `--target cursor` |
-| **Generic** | `~/.agents/conventions/` | `--target agents` |
-| **Custom** | Any path | `--path /your/path` |
-
-### Examples
+These are temporarily kept for compatibility and will be removed in a future cleanup:
 
 ```bash
-# Interactive - will prompt for target
+# Deprecated: legacy npm CLI
 npx create-agent-conventions
 
-# Direct install to specific tool
-npx create-agent-conventions --target claude
-npx create-agent-conventions --target codex
-npx create-agent-conventions --target cursor
+# Deprecated: legacy shell installer
+curl -fsSL https://raw.githubusercontent.com/Zokor/agent-conventions/main/install.sh | bash
 
-# Custom path
-npx create-agent-conventions --path ./my-conventions
-
-# Install all conventions (no prompts)
-npx create-agent-conventions --all --target claude
+# Deprecated: manual clone workflow
+git clone https://github.com/Zokor/agent-conventions.git ~/.agent-conventions
 ```
 
 ---
 
 ## Usage
-
-### Claude Code
-
-```bash
-# Add skill to session
-claude --skill ~/.claude/skills/agent-conventions/SKILL.md
-
-# Or add to .claude/settings.json
-{
-  "skills": ["~/.claude/skills/agent-conventions/SKILL.md"]
-}
-```
-
-### Cursor
-
-Add to `.cursor/rules`:
-```
-@import ~/.cursor/skills/agent-conventions/SKILL.md
-```
-
-### Generic
-
-Reference the `SKILL.md` in your AI tool's configuration or system prompt.
+Skills are available to supported agents after installation via `npx skills add`.
 
 ---
 

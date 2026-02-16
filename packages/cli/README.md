@@ -2,6 +2,20 @@
 
 Interactive CLI to install agent-friendly code conventions for AI coding assistants.
 
+## Status
+
+Deprecated. Use:
+
+```bash
+npx skills add Zokor/agent-conventions
+```
+
+Recommended global install:
+
+```bash
+npx skills add Zokor/agent-conventions -g --agent '*' -y
+```
+
 ## Usage
 
 ```bash

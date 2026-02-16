@@ -8,7 +8,8 @@ import { fileURLToPath } from 'url'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
-const REPO_URL = 'https://raw.githubusercontent.com/your-org/agent-conventions/main'
+const REPO_URL = 'https://raw.githubusercontent.com/Zokor/agent-conventions/main'
+const DEPRECATION_CMD = 'npx skills add Zokor/agent-conventions'
 
 // Parse CLI arguments
 const args = process.argv.slice(2)
@@ -88,6 +89,9 @@ const FILE_PATHS = {
 
 function showHelp() {
   console.log(`
+${pc.bold(pc.yellow('DEPRECATED:'))} This installer is kept temporarily for compatibility.
+Use ${pc.cyan(DEPRECATION_CMD)}.
+
 ${pc.bold(pc.cyan('create-agent-conventions'))} - Install agent-friendly code conventions
 
 ${pc.bold('Usage:')}
@@ -113,6 +117,12 @@ ${pc.bold('Examples:')}
 `)
 }
 
+function printDeprecationNotice() {
+  console.log(pc.bold(pc.yellow('DEPRECATED:')), 'This installer is kept temporarily for compatibility.')
+  console.log('Use', pc.cyan(DEPRECATION_CMD))
+  console.log('')
+}
+
 function expandPath(p) {
   const home = process.env.HOME || process.env.USERPROFILE
   return p.replace(/^~/, home)
@@ -127,6 +137,7 @@ async function main() {
   console.log('')
   console.log(pc.bold(pc.cyan('🤖 Agent Conventions Installer')))
   console.log(pc.dim('Conventions that make codebases agent-friendly\n'))
+  printDeprecationNotice()
 
   let selections = {
     languages: [],
