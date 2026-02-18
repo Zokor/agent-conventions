@@ -209,6 +209,11 @@ tests/
 
 **Why**: Either way, agents can answer “where is the test for this?” by following a deterministic path.
 
+Testing principles (all languages):
+- Test behavior through public interfaces (API, service contract, component props/events), not internal implementation details.
+- Do not add tests for guarantees already enforced at compile-time by the language/type system.
+- Add focused tests for runtime behavior the type system cannot guarantee (business rules, integration boundaries, side effects, failure handling).
+
 ### 6. Error Handling — Use Typed Errors
 
 ```

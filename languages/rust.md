@@ -81,6 +81,9 @@ pub enum UserError {
 - Keep unit tests close to code (`#[cfg(test)] mod tests`).
 - Place cross-module behavior tests in `tests/`.
 - Prefer deterministic tests; avoid sleeps when synchronization primitives can be used.
+- Test behavior via public functions/traits and module boundaries; avoid coupling tests to private implementation details.
+- Do not write tests for compile-time guarantees already enforced by Rust's type system and borrow checker.
+- Focus tests on runtime behavior the compiler cannot prove (domain invariants, error mapping, concurrency behavior, integration paths).
 
 ## Formatting and Lint
 

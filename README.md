@@ -96,7 +96,7 @@ This skill uses semantic versioning tracked in:
 - `VERSION` for the current released version
 - `CHANGELOG.md` for release notes and upgrade history
 
-Current version: `2.1.0`
+Current version: `2.1.1`
 
 ---
 

@@ -195,6 +195,12 @@ const city = user?.address?.city
 const city = user && user.address && user.address.city
 ```
 
+## Testing
+
+- Test observable behavior via public interfaces (exported functions, API routes, UI interactions), not private internals.
+- Do not write tests that only restate TypeScript compile-time checks (e.g., impossible union states, missing required properties, invalid generic constraints).
+- Write tests for runtime behavior that TypeScript cannot prove (business rules, error paths, I/O boundaries, serialization/deserialization).
+
 ## File Organization
 
 Follow the universal concern-bucket pattern:

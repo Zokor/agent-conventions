@@ -2,6 +2,13 @@
 
 All notable changes to this skill are documented in this file.
 
+## [2.1.1] - 2026-02-18
+
+### Changed
+- Added explicit testing principles to `SKILL.md`: test behavior via public interfaces, avoid testing compile-time guarantees, and focus on runtime behavior.
+- Added TypeScript testing guidance in `languages/typescript.md` to avoid tests that restate type-checker guarantees.
+- Expanded Rust testing guidance in `languages/rust.md` to distinguish compile-time guarantees from runtime behavior tests.
+
 ## [2.1.0] - 2026-02-16
 
 ### Added
