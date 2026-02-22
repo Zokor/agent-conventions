@@ -63,18 +63,18 @@ Use `data-testid` selectors as the stable contract between UI and tests.
 
 ### Naming Convention
 
-Use kebab-case with a `<domain>-<flow>-<element>` pattern:
+Use kebab-case with a `<domain>-<context>-<element>` pattern (two or three segments):
 
 ```
-auth-login-email
+auth-login-email          # domain-context-element
 auth-login-password
 auth-login-submit
-dashboard-header
+dashboard-header          # domain-element (when context = page itself)
 checkout-cart-item
 checkout-place-order
 ```
 
-This ensures IDs are globally unique, grep-friendly, and self-documenting.
+Minimum two segments (`domain-element`), three when the domain has multiple contexts. This ensures IDs are globally unique, grep-friendly, and self-documenting.
 
 ### Examples
 
@@ -201,7 +201,7 @@ async function globalSetup() {
   await page.getByTestId(TID.auth.loginSubmit).click()
   await page.waitForURL(ROUTES.dashboardPattern)
 
-  await page.context().storageState({ path: 'e2e/.auth/state.json' })
+  await page.context().storageState({ path: 'e2e/.auth/state.json' }) // adjust path to match testDir
   await browser.close()
 }
 
@@ -213,9 +213,9 @@ export default globalSetup
 ```ts
 // playwright.config.ts (relevant additions)
 export default defineConfig({
-  globalSetup: './e2e/support/auth-setup.ts',
+  globalSetup: './e2e/support/auth-setup.ts', // adjust path to match testDir
   use: {
-    storageState: 'e2e/.auth/state.json',
+    storageState: 'e2e/.auth/state.json',    // adjust path to match testDir
   },
 })
 ```
@@ -232,7 +232,7 @@ test('auth.login: shows error on invalid credentials', async ({ page }) => {
 })
 ```
 
-Add `e2e/.auth/` to `.gitignore`.
+Add the auth state directory to `.gitignore` (e.g., `e2e/.auth/` or `tests/e2e/.auth/`).
 
 ## API Mocking
 
@@ -274,12 +274,12 @@ Playwright config baseline:
 import { defineConfig } from '@playwright/test'
 
 export default defineConfig({
-  testDir: './e2e',
-  globalSetup: './e2e/support/auth-setup.ts',
+  testDir: './e2e',                          // or './tests/e2e' if the repo uses a global tests/ tree
+  globalSetup: './e2e/support/auth-setup.ts', // adjust path to match testDir
   retries: process.env.CI ? 1 : 0,
   use: {
     headless: !!process.env.CI,
-    storageState: 'e2e/.auth/state.json',
+    storageState: 'e2e/.auth/state.json',    // adjust path to match testDir
     trace: 'retain-on-failure',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
