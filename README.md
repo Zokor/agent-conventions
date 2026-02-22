@@ -29,6 +29,7 @@ Conventions that make codebases searchable, predictable, and agent-friendly.
 | Next.js | [nextjs.md](frameworks/frontend/nextjs.md) | App Router, Server Components, Server Actions |
 | Vue | [vue.md](frameworks/frontend/vue.md) | Composition API, composables, Pinia, SFC |
 | Angular | [angular.md](frameworks/frontend/angular.md) | Standalone components, signals, services, RxJS |
+| Browser E2E | [e2e.md](frameworks/frontend/e2e.md) | Playwright-first conventions, selectors, CI artifacts |
 
 ### Backend Frameworks
 

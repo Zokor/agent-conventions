@@ -158,3 +158,8 @@ Test placement:
 - If the repo colocates: `UserCard.test.ts` next to `UserCard.vue`
 - If the repo uses `tests/`: mirror `src/` paths under `tests/`
 
+## E2E Testing
+
+- See full guide: [frameworks/frontend/e2e.md](e2e.md)
+- Add `data-testid` on interactive elements at authoring time (not retrofitted).
+- MSW is already used for component tests — reuse the same handlers in Playwright via `page.route()`.

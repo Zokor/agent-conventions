@@ -363,3 +363,9 @@ Rules:
 
 See [react.md](react.md) for React component patterns.
 See [languages/typescript.md](../../languages/typescript.md) for TypeScript conventions.
+
+## E2E Testing
+
+- See full guide: [frameworks/frontend/e2e.md](e2e.md)
+- Test both SSR-rendered pages (direct navigation) and client-side transitions separately.
+- Use `next start` (production build) in CI for E2E, not `next dev`.

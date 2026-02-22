@@ -184,3 +184,9 @@ export { UserRole } from './enums/user'
 ```
 
 Other features import from the index, never from internals.
+
+## E2E Testing
+
+- See full guide: [frameworks/frontend/e2e.md](e2e.md)
+- Add `data-testid` on interactive elements at authoring time (not retrofitted).
+- MSW is already used for component tests — reuse the same handlers in Playwright via `page.route()`.

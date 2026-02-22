@@ -142,3 +142,7 @@ Prefer typed errors over stringly-typed branching:
 - Prefer testing behavior (DOM + interactions) over implementation details.
 - Mock HTTP with `HttpTestingController` (or repo standard).
 
+## E2E Testing
+
+- See full guide: [frameworks/frontend/e2e.md](e2e.md)
+- Playwright replaces Protractor (officially deprecated). Remove Protractor config if present.

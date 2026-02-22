@@ -214,6 +214,14 @@ Testing principles (all languages):
 - Do not add tests for guarantees already enforced at compile-time by the language/type system.
 - Add focused tests for runtime behavior the type system cannot guarantee (business rules, integration boundaries, side effects, failure handling).
 
+#### 5b. E2E / Browser Tests — Frontend Apps
+- Use **Playwright** for new projects; keep Cypress if already present in the repo.
+- Place tests in `e2e/` (or `tests/e2e/`) at the project root — **never** colocated with source.
+- File naming: `<feature-or-flow>.spec.ts` (e.g., `checkout.spec.ts`, `login.spec.ts`).
+- Selectors: always use `data-testid` attributes. Never select by CSS class, tag, or visible text alone.
+- One spec file per user flow, not per component.
+- Full guide: [frameworks/frontend/e2e.md](frameworks/frontend/e2e.md)
+
 ### 6. Error Handling — Use Typed Errors
 
 ```
