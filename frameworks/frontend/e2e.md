@@ -33,7 +33,8 @@ e2e/
     checkout.page.ts
   support/
     test-ids.ts
-    auth-helpers.ts
+    routes.ts
+    auth-setup.ts
 playwright.config.ts
 ```
 
@@ -55,12 +56,27 @@ Allowed alternate root:
 
 Use `data-testid` selectors as the stable contract between UI and tests.
 
-Rules:
+### Rules
 - Always select with `data-testid`.
 - Never rely on CSS classes, tag names, DOM position, or visible text alone.
 - Add test IDs during feature implementation, not as a retrofit.
 
-Examples:
+### Naming Convention
+
+Use kebab-case with a `<domain>-<flow>-<element>` pattern:
+
+```
+auth-login-email
+auth-login-password
+auth-login-submit
+dashboard-header
+checkout-cart-item
+checkout-place-order
+```
+
+This ensures IDs are globally unique, grep-friendly, and self-documenting.
+
+### Examples
 
 ```tsx
 // React
@@ -81,52 +97,165 @@ Examples:
 await page.getByTestId('auth-login-submit').click()
 ```
 
+### Centralizing Test IDs
+
+When test IDs are reused across multiple spec files, centralize them in `e2e/support/test-ids.ts`:
+
+```ts
+// e2e/support/test-ids.ts
+export const TID = {
+  auth: {
+    loginEmail: 'auth-login-email',
+    loginPassword: 'auth-login-password',
+    loginSubmit: 'auth-login-submit',
+  },
+  dashboard: {
+    header: 'dashboard-header',
+  },
+  checkout: {
+    cartItem: 'checkout-cart-item',
+    placeOrder: 'checkout-place-order',
+  },
+} as const
+```
+
+```ts
+// usage in specs
+import { TID } from '../support/test-ids'
+
+await page.getByTestId(TID.auth.loginSubmit).click()
+```
+
+This keeps IDs in sync between source components and test code.
+
 ## Test Structure
 
 Use Arrange / Act / Assert in every test and keep each `test()` focused on one user flow.
 
 ```ts
 import { test, expect } from '@playwright/test'
+import { TID } from '../support/test-ids'
+import { ROUTES } from '../support/routes'
+import users from '../fixtures/users.json'
 
 test('auth.login: valid credentials redirect to dashboard', async ({ page }) => {
   // Arrange
-  await page.goto('/login')
-  await page.getByTestId('auth-login-email').fill('alice@example.com')
-  await page.getByTestId('auth-login-password').fill('correct-horse-battery-staple')
+  await page.goto(ROUTES.login)
+  await page.getByTestId(TID.auth.loginEmail).fill(users.valid.email)
+  await page.getByTestId(TID.auth.loginPassword).fill(users.valid.password)
 
   // Act
-  await page.getByTestId('auth-login-submit').click()
+  await page.getByTestId(TID.auth.loginSubmit).click()
 
   // Assert
-  await expect(page).toHaveURL(/\/dashboard$/)
-  await expect(page.getByTestId('dashboard-header')).toBeVisible()
+  await expect(page).toHaveURL(ROUTES.dashboardPattern)
+  await expect(page.getByTestId(TID.dashboard.header)).toBeVisible()
 })
+```
+
+Supporting files:
+
+```ts
+// e2e/support/routes.ts
+export const ROUTES = {
+  login: '/login',
+  dashboard: '/dashboard',
+  dashboardPattern: /\/dashboard$/,
+} as const
+```
+
+```json
+// e2e/fixtures/users.json
+{
+  "valid": { "id": "u1", "email": "alice@example.com", "password": "correct-horse-battery-staple" },
+  "invalid": { "id": "u2", "email": "bob@example.com", "password": "wrong" }
+}
 ```
 
 Rules:
 - Keep assertions inside the same test that executes the flow.
 - Prefer explicit expectations over manual `waitForTimeout`.
 - Use `beforeEach` only for shared setup that is truly common.
+- No magic strings — routes, test IDs, and credentials live in `support/` or `fixtures/`.
+
+## Authentication State Reuse
+
+Avoid re-logging-in for every spec. Use Playwright's `storageState` to authenticate once in global setup and share the session.
+
+### Global setup
+
+```ts
+// e2e/support/auth-setup.ts
+import { chromium } from '@playwright/test'
+import { TID } from './test-ids'
+import { ROUTES } from './routes'
+import users from '../fixtures/users.json'
+
+async function globalSetup() {
+  const browser = await chromium.launch()
+  const page = await browser.newPage()
+
+  await page.goto(ROUTES.login)
+  await page.getByTestId(TID.auth.loginEmail).fill(users.valid.email)
+  await page.getByTestId(TID.auth.loginPassword).fill(users.valid.password)
+  await page.getByTestId(TID.auth.loginSubmit).click()
+  await page.waitForURL(ROUTES.dashboardPattern)
+
+  await page.context().storageState({ path: 'e2e/.auth/state.json' })
+  await browser.close()
+}
+
+export default globalSetup
+```
+
+### Config integration
+
+```ts
+// playwright.config.ts (relevant additions)
+export default defineConfig({
+  globalSetup: './e2e/support/auth-setup.ts',
+  use: {
+    storageState: 'e2e/.auth/state.json',
+  },
+})
+```
+
+### Unauthenticated tests
+
+For specs that test login itself or anonymous flows, override the storage state:
+
+```ts
+test.use({ storageState: { cookies: [], origins: [] } })
+
+test('auth.login: shows error on invalid credentials', async ({ page }) => {
+  // ...
+})
+```
+
+Add `e2e/.auth/` to `.gitignore`.
 
 ## API Mocking
 
-Prefer real API calls for critical integration paths. Mock only when isolation is required.
+Prefer real API calls against controlled test environments (seeded databases, test accounts). Mock only when isolation is required.
 
 Playwright route interception:
 
 ```ts
+import users from '../fixtures/users.json'
+
 await page.route('**/api/users/me', async (route) => {
   await route.fulfill({
     status: 200,
     contentType: 'application/json',
-    body: JSON.stringify({ id: 'u1', name: 'Alice' }),
+    body: JSON.stringify({ id: users.valid.id, name: 'Alice' }),
   })
 })
 ```
 
 Guidelines:
 - Mock unstable third-party dependencies and rare failure paths.
-- Keep fixtures under `e2e/fixtures/`.
+- In CI, mock external/third-party APIs for determinism; use real calls only against controlled test databases or seeded environments.
+- Keep fixture data under `e2e/fixtures/`.
 - If the repo uses MSW for unit/component tests, reuse the same handler payloads where possible and mirror behavior with `page.route()`.
 
 ## CI Configuration
@@ -134,7 +263,7 @@ Guidelines:
 Run browser tests as deterministic CI checks, not optional smoke scripts.
 
 Required defaults:
-- Headless mode in CI.
+- Headless mode in CI (headed locally for debugging).
 - Upload screenshots, videos, and traces on failure.
 - Enable retries in CI only (example: `retries: 1`).
 - Parallelize with a fixed worker count based on CI CPU.
@@ -146,9 +275,11 @@ import { defineConfig } from '@playwright/test'
 
 export default defineConfig({
   testDir: './e2e',
+  globalSetup: './e2e/support/auth-setup.ts',
   retries: process.env.CI ? 1 : 0,
   use: {
-    headless: true,
+    headless: !!process.env.CI,
+    storageState: 'e2e/.auth/state.json',
     trace: 'retain-on-failure',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
@@ -160,7 +291,6 @@ export default defineConfig({
 
 - Keep test names grep-able and flow-scoped (`feature.action: outcome`).
 - Keep folder shapes glob-able (`e2e/<domain>/<flow>.spec.ts`).
-- Centralize repeated test IDs in `e2e/support/test-ids.ts` when reused widely.
-- Avoid magic strings for routes, IDs, and credentials; use shared constants/fixtures.
+- Centralize repeated test IDs in `e2e/support/test-ids.ts` (see [Centralizing Test IDs](#centralizing-test-ids)).
+- No magic strings — routes, test IDs, and credentials live in `support/` or `fixtures/`.
 - Prefer deterministic helpers over hidden globals or side-effect-heavy hooks.
-

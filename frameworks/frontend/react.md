@@ -189,4 +189,4 @@ Other features import from the index, never from internals.
 
 - See full guide: [frameworks/frontend/e2e.md](e2e.md)
 - Add `data-testid` on interactive elements at authoring time (not retrofitted).
-- MSW is already used for component tests — reuse the same handlers in Playwright via `page.route()`.
+- If the repo uses MSW for component tests, reuse the same handler payloads in Playwright via `page.route()`.
