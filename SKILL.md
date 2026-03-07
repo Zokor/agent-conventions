@@ -250,6 +250,8 @@ echo "user created";
 
 **Why**: Structured logs are parseable by machines and searchable by agents.
 
+**When scaffolding new modules**: Include a lightweight structured logger (or import one from a shared module). A module without logging is incomplete — at minimum, log errors with context at service boundaries. Don't leave logging absent just because there's no existing logger to follow.
+
 ### 7b. Retry & Recovery — Standard Policy
 
 Do not invent ad-hoc retry logic. Follow the standard retry policy in [retry.md](retry.md), which defines:
@@ -262,9 +264,10 @@ Do not invent ad-hoc retry logic. Follow the standard retry policy in [retry.md]
 
 Full policy, including 409 classification, Retry-After handling, retry budgets, distributed concerns, and queue/dead-letter rules: [retry.md](retry.md).
 
-### 8. Security Basics
+### 8. Security & Configuration Basics
 
 - Never hardcode secrets, tokens, or API keys in source files
+- Environment-specific values (API base URLs, service endpoints, feature flags) should come from environment variables or a config module, not hardcoded constants. Use `process.env.API_BASE` (or framework equivalent), never `const API_BASE = 'https://...'`
 - Validate all external input at the boundary (route handlers, API endpoints)
 - Use parameterized queries, never string interpolation for SQL
 - Sanitize output to prevent XSS

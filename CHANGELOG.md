@@ -2,6 +2,12 @@
 
 All notable changes to this skill are documented in this file.
 
+## [2.1.2] - 2026-03-07
+
+### Changed
+- Rule 7 (Logging): Added guidance for scaffolding new modules — include a structured logger rather than leaving logging absent.
+- Rule 8 (Security): Broadened to "Security & Configuration Basics" — environment-specific values (API URLs, endpoints, feature flags) must come from environment variables or config, not hardcoded constants.
+
 ## [2.1.1] - 2026-02-18
 
 ### Changed
