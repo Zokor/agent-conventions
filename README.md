@@ -97,7 +97,25 @@ This skill uses semantic versioning tracked in:
 - `VERSION` for the current released version
 - `CHANGELOG.md` for release notes and upgrade history
 
-Current version: `2.1.1`
+Current version: `2.1.2`
+
+---
+
+## Benchmark
+
+Tested against 3 evals (feature scaffolding, code review, refactoring) with 14 total assertions covering file organization, named exports, typed errors, structured logging, config externalization, and file splitting.
+
+| Configuration | Pass Rate | Avg Tokens | Avg Time |
+|---------------|-----------|------------|----------|
+| **With skill** | **100%** (14/14) | 24,477 | 119s |
+| Without skill | 70% (10/14) | 17,758 | 103s |
+| **Delta** | **+30pp** | +6,719 | +16s |
+
+Key differentiators vs baseline:
+- **File organization**: Skill drives concern-first directory layout; baseline keeps monolithic files
+- **Config externalization**: Skill reads API URLs from `process.env`; baseline hardcodes them
+- **Structured logging**: Skill creates a JSON logger for new modules; baseline uses bare `console.error` or omits logging
+- **Typed errors**: Skill creates error class hierarchies; baseline retains `export default` and generic errors
 
 ---
 
