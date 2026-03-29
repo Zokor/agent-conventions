@@ -288,7 +288,7 @@ import { hashPassword } from '@/features/users/utils/crypto'
 
 ### 10. Documentation Signals
 
-- Public APIs and exported functions should have docblocks/TSDoc
+- When creating new public APIs or exported functions, add docblocks/TSDoc. Do not add documentation to existing undocumented code unless explicitly asked
 - Complex business logic should have inline comments explaining "why", not "what"
 - Module-level comments for non-obvious architectural decisions
 

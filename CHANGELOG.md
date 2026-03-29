@@ -2,6 +2,11 @@
 
 All notable changes to this skill are documented in this file.
 
+## [2.1.3] - 2026-03-28
+
+### Changed
+- Rule 10 (Documentation Signals): Scoped docblock guidance to new public APIs only. Do not add documentation to existing undocumented code unless explicitly asked — avoids conflicting with agent default behavior of not modifying unchanged code.
+
 ## [2.1.2] - 2026-03-07
 
 ### Changed
